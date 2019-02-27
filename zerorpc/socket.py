@@ -25,6 +25,7 @@
 
 from .context import Context
 from .events import Events
+from . import gevent_zmq as zmq
 
 
 class SocketBase(object):
@@ -32,6 +33,7 @@ class SocketBase(object):
     def __init__(self, zmq_socket_type, context=None):
         self._context = context or Context.get_instance()
         self._events = Events(zmq_socket_type, context)
+        self._events.setsockopt(zmq.IPV6, 1)
 
     def close(self):
         self._events.close()
